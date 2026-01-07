@@ -33,7 +33,7 @@ export const authOptions: NextAuthOptions = {
 
         // 2. Database Check (Prisma)
         // This checks if a real user exists in your Postgres DB
-        const user = await prisma.user.findUnique({
+        const user = await (prisma as any).user.findUnique({
           where: { email: credentials.email }
         });
 
@@ -46,7 +46,7 @@ export const authOptions: NextAuthOptions = {
           id: user.id.toString(), 
           name: user.name, 
           email: user.email, 
-          role: user.role 
+          role: (user as any).role ?? "user",
         };
       },
     }),
