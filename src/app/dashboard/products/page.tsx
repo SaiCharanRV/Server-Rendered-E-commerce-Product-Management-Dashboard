@@ -1,18 +1,20 @@
 import { prisma } from "@/lib/prisma";
 import { deleteProduct, updateProduct } from "@/app/actions/productActions";
 import ProductForm from "@/components/ProductForm";
+
 export const dynamic = "force-dynamic";
+
 export default async function ProductsPage() {
   // Fetches only active products on the server
   const products = await prisma.product.findMany({
-    where: { isActive: true }, // Added your filter back here
+    where: { isActive: true },
     orderBy: { createdAt: "desc" },
   });
 
   return (
     <div 
       style={{ 
-        marginLeft: "256px", // Space for your sidebar
+        marginLeft: "256px",
         padding: "32px",
         backgroundColor: "#f9fafb",
         minHeight: "100vh"
@@ -33,9 +35,9 @@ export default async function ProductsPage() {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(2, 1fr)",
+          gridTemplateColumns: "repeat(3, 1fr)",
           gap: "24px",
-          maxWidth: "1200px",
+          maxWidth: "1400px",
         }}
       >
         {products.map((product) => (
@@ -51,26 +53,40 @@ export default async function ProductsPage() {
             }}
           >
             {/* PRODUCT IMAGE SECTION */}
-            <div style={{ position: "relative", height: "160px" }}>
+            <div 
+              style={{ 
+                position: "relative", 
+                width: "100%",
+                paddingBottom: "56.25%",
+                overflow: "hidden",
+                background: "#f3f4f6"
+              }}
+            >
               {product.imageUrl ? (
                 <img
                   src={product.imageUrl}
                   alt={product.name}
                   style={{
+                    position: "absolute",
+                    top: "0",
+                    left: "0",
                     width: "100%",
                     height: "100%",
-                    objectFit: "cover",
+                    objectFit: "contain",
                   }}
                 />
               ) : (
                 <div
                   style={{
+                    position: "absolute",
+                    top: "0",
+                    left: "0",
+                    width: "100%",
                     height: "100%",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
                     color: "#9ca3af",
-                    background: "#f3f4f6"
                   }}
                 >
                   No Image

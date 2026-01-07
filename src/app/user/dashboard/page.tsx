@@ -1,7 +1,9 @@
 import { prisma } from "@/lib/prisma";
 import { placeOrder } from "@/app/actions/orderActions";
 import Link from "next/link";
+
 export const dynamic = "force-dynamic";
+
 export default async function ProductsPage() {
   const products = await prisma.product.findMany({
     where: { isActive: true },
@@ -69,20 +71,35 @@ export default async function ProductsPage() {
               flexDirection: "column",
             }}
           >
-            <div style={{ position: "relative", height: "160px" }}>
+            <div 
+              style={{ 
+                position: "relative", 
+                width: "100%",
+                paddingBottom: "56.25%", // 16:9 aspect ratio
+                overflow: "hidden",
+                background: "#f3f4f6"
+              }}
+            >
               {product.imageUrl ? (
                 <img
                   src={product.imageUrl}
                   alt={product.name}
                   style={{
+                    position: "absolute",
+                    top: "0",
+                    left: "0",
                     width: "100%",
                     height: "100%",
-                    objectFit: "cover",
+                    objectFit: "contain",
                   }}
                 />
               ) : (
                 <div
                   style={{
+                    position: "absolute",
+                    top: "0",
+                    left: "0",
+                    width: "100%",
                     height: "100%",
                     display: "flex",
                     alignItems: "center",
