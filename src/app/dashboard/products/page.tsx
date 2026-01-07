@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { deleteProduct, updateProduct } from "@/app/actions/productActions";
 import ProductForm from "@/components/ProductForm";
-
+export const dynamic = "force-dynamic";
 export default async function ProductsPage() {
   // Fetches only active products on the server
   const products = await prisma.product.findMany({

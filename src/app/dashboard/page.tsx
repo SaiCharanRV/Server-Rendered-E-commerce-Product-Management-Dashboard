@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import OverviewChart from "@/components/OverviewChart";
 import SalesChart from "@/components/SalesChart";
-
+export const dynamic = "force-dynamic";
 export default async function DashboardOverview() {
   // 1. Fetch products
   const products = await prisma.product.findMany({
