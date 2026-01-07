@@ -13,7 +13,7 @@ export async function addProduct(prevState: any, formData: FormData) {
   const imageFile = formData.get("image") as File;
 
   if (!name || !priceString || !stockString || !imageFile || imageFile.size === 0) {
-    return { error: "Please fill in all fields and select an image." }
+    throw new Error("Please fill in all fields and select an image.")
   }
 
   try {
@@ -47,12 +47,17 @@ export async function addProduct(prevState: any, formData: FormData) {
     revalidatePath("/dashboard/products")
     revalidatePath("/dashboard")
 
-    return { success: true }
+    return
 
   } catch (error) {
     console.error("Upload/Database Error:", error)
-    return { error: "Failed to upload image or save product." }
+    throw new Error("Failed to upload image or save product.")
   }
+}
+
+// Server action wrapper with signature (formData: FormData) => void
+export async function addProductAction(formData: FormData) {
+  return await addProduct(null, formData);
 }
 
 export async function deleteProduct(productId: string) {
@@ -64,11 +69,11 @@ export async function deleteProduct(productId: string) {
     
     revalidatePath("/dashboard/products")
     revalidatePath("/dashboard")
-    return { success: true }
+    return
 
   } catch (error) {
     console.error("Delete Error:", error)
-    return { error: "Failed to delete product" }
+    throw new Error("Failed to delete product")
   }
 }
 
@@ -84,7 +89,7 @@ export async function updateProduct(
   const stock = Number(formData.get("stock"))
 
   if (isNaN(price) || isNaN(stock)) {
-    return { error: "Invalid price or stock value" }
+    throw new Error("Invalid price or stock value")
   }
 
   try {
@@ -100,10 +105,10 @@ export async function updateProduct(
     revalidatePath("/dashboard/products")
     revalidatePath("/dashboard")
 
-    return { success: true }  
+    return
 
   } catch (error) {
     console.error("Update Error:", error)
-    return { error: "Failed to update product" }
+    throw new Error("Failed to update product")
   }
 }

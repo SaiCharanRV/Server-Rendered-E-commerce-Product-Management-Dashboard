@@ -126,7 +126,7 @@ export default async function ProductsPage() {
                 ₹ {product.price.toLocaleString("en-IN")}
               </p>
 
-              <form action={placeOrder}>
+              <form method="post" action={placeOrder}>
                 <input type="hidden" name="productId" value={product.id} />
                 <label
                   style={{

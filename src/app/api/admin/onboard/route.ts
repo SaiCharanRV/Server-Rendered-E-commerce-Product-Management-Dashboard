@@ -7,7 +7,7 @@ export async function POST(req: NextRequest) {
     const { name, email, password } = await req.json();
 
     // Check if email already exists
-    const existingAdmin = await prisma.admin.findUnique({
+    const existingAdmin = await (prisma as any).admin.findUnique({
       where: { email },
     });
 
@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Create admin
-    await prisma.admin.create({
+    await (prisma as any).admin.create({
       data: {
         name,
         email,

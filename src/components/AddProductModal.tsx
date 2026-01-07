@@ -1,10 +1,9 @@
 "use client";
 
-import { useActionState, useState } from "react";
-import { addProduct } from "@/app/actions/productActions";
+import { useState } from "react";
+import { addProductAction } from "@/app/actions/productActions";
 
 export default function AddProductModal() {
-  const [state, formAction, isPending] = useActionState(addProduct, null);
   // State for image preview
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
@@ -20,7 +19,7 @@ export default function AddProductModal() {
     <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-md border border-gray-200">
       <h2 className="text-xl font-bold mb-4 text-black">Add New Product</h2>
       
-      <form action={formAction} className="flex flex-col gap-4">
+      <form method="post" action={addProductAction} className="flex flex-col gap-4">
         
         {/* --- NEW IMAGE UPLOAD FIELD --- */}
         <div>
@@ -59,14 +58,12 @@ export default function AddProductModal() {
 
         <button
           type="submit"
-          disabled={isPending}
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:bg-gray-400 mt-2"
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2"
         >
-          {isPending ? "Uploading & Saving..." : "Add to Database"}
+          Add to Database
         </button>
 
-        {state?.error && <p className="text-red-500 text-sm text-center">{state.error}</p>}
-        {state?.success && <p className="text-green-600 text-sm text-center">Product Added Successfully!</p>}
+        {/* Server action returns void; errors will throw and can be handled server-side. */}
       </form>
     </div>
   );

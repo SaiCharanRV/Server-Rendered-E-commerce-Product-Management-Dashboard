@@ -53,7 +53,7 @@ export async function placeOrder(formData: FormData) {
     revalidatePath("/dashboard/products");
     revalidatePath("/dashboard/orders");
 
-    return { success: true, message: "Order placed successfully!" };
+    return;
 
   } catch (error) {
     console.error("Order placement error:", error);

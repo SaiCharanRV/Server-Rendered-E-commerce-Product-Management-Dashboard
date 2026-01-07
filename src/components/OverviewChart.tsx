@@ -35,7 +35,7 @@ export default function OverviewChart({ data }: { data: ChartData[] }) {
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie
-              data={data}
+              data={data as any}
               cx="50%"
               cy="45%" 
               innerRadius={110}  // <--- Creates the Donut hole
@@ -57,7 +57,7 @@ export default function OverviewChart({ data }: { data: ChartData[] }) {
             </Pie>
             
             <Tooltip 
-               formatter={(value: number) => `₹${value.toLocaleString()}`}
+              formatter={(value: any) => `₹${(value ?? 0).toLocaleString()}`}
                contentStyle={{ 
                  borderRadius: '12px', 
                  border: 'none', 

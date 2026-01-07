@@ -9,9 +9,6 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
-  Defs,
-  LinearGradient,
-  Stop
 } from 'recharts';
 
 interface SalesChartProps {

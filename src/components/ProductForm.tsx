@@ -33,7 +33,8 @@ export default function ProductForm() {
       return true;
     } catch (error) {
       if (error instanceof z.ZodError) {
-        setErrors({ name: error.errors[0].message });
+        const zErr = error as z.ZodError;
+        setErrors({ name: zErr.issues[0]?.message || 'Invalid name' });
       }
       return false;
     }
@@ -50,9 +51,11 @@ export default function ProductForm() {
     } catch (error) {
       if (error instanceof z.ZodError) {
         const fieldErrors: Record<string, string> = {};
-        error.errors.forEach((err) => {
-          if (err.path[0]) {
-            fieldErrors[err.path[0].toString()] = err.message;
+        const zErr = error as z.ZodError;
+        zErr.issues.forEach((err) => {
+          const path = err.path?.[0];
+          if (path) {
+            fieldErrors[String(path)] = err.message;
           }
         });
         setErrors(fieldErrors);
@@ -72,7 +75,8 @@ export default function ProductForm() {
       return true;
     } catch (error) {
       if (error instanceof z.ZodError) {
-        setErrors({ image: error.errors[0].message });
+        const zErr = error as z.ZodError;
+        setErrors({ image: zErr.issues[0]?.message || 'Invalid image' });
       }
       return false;
     }

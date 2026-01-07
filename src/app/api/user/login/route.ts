@@ -9,7 +9,7 @@ export async function POST(req: NextRequest) {
     console.log("User login attempt for:", email);
 
     // Find user by email
-    const user = await prisma.user.findUnique({
+    const user = await (prisma as any).user.findUnique({
       where: { email },
     });
 

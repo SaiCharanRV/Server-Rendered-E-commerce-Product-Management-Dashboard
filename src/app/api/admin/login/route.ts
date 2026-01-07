@@ -9,7 +9,7 @@ export async function POST(req: NextRequest) {
     console.log("Login attempt for:", email);
 
     // Find admin by email
-    const admin = await prisma.admin.findUnique({
+    const admin = await (prisma as any).admin.findUnique({
       where: { email },
     });
 

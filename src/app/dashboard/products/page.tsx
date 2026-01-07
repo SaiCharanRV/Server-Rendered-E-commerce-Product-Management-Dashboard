@@ -124,7 +124,7 @@ export default async function ProductsPage() {
                 }}
               >
                 {/* DELETE BUTTON */}
-                <form action={deleteProduct.bind(null, product.id)}>
+                <form method="post" action={deleteProduct.bind(null, product.id)}>
                   <button
                     type="submit"
                     style={{
@@ -169,7 +169,7 @@ export default async function ProductsPage() {
                       border: "1px solid #e5e7eb"
                     }}
                   >
-                    <form action={updateProduct.bind(null, product.id)}>
+                    <form method="post" action={updateProduct.bind(null, product.id)}>
                       <div style={{ marginBottom: "10px" }}>
                         <label style={{ fontSize: "11px", color: "#6b7280", display: "block", marginBottom: "4px" }}>Price (₹)</label>
                         <input
