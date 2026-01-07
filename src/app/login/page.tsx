@@ -3,20 +3,20 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
-export default function HomePage() {
+export default function AdminLoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const handleUserLogin = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     setLoading(true);
 
     try {
-      const response = await fetch("/api/user/login", {
+      const response = await fetch("/api/admin/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -25,13 +25,12 @@ export default function HomePage() {
       const data = await response.json();
 
       if (response.ok) {
-        localStorage.setItem("user", JSON.stringify(data.user));
-        router.push("/user/dashboard");
+        localStorage.setItem("admin", JSON.stringify(data.admin));
+        router.push("/dashboard");
       } else {
         setError(data.error || "Invalid credentials");
       }
-    } catch (error) {
-      console.error("Login error:", error);
+    } catch (err) {
       setError("Login failed. Please try again.");
     } finally {
       setLoading(false);
@@ -44,7 +43,6 @@ export default function HomePage() {
         minHeight: "100vh",
         background: "linear-gradient(to bottom right, #dbeafe, #f3f4f6)",
         display: "flex",
-        flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
         padding: "24px",
@@ -52,12 +50,12 @@ export default function HomePage() {
     >
       <div
         style={{
-          maxWidth: "448px",
+          maxWidth: "450px",
           width: "100%",
-          background: "white",
+          background: "#ffffff",
           padding: "40px",
-          borderRadius: "16px",
-          boxShadow: "0 20px 25px -5px rgba(0, 0, 0, 0.1)",
+          borderRadius: "18px",
+          boxShadow: "0 25px 40px -12px rgba(0,0,0,0.15)",
         }}
       >
         {/* Header */}
@@ -67,31 +65,31 @@ export default function HomePage() {
               fontSize: "36px",
               fontWeight: "800",
               color: "#2563eb",
-              letterSpacing: "-0.025em",
+              letterSpacing: "-0.03em",
             }}
           >
-            E-Commerce Product Management
+            Admin Login
           </h1>
           <p
             style={{
-              marginTop: "8px",
+              marginTop: "6px",
               color: "#4b5563",
-              fontSize: "14px",
+              fontSize: "15px",
               fontWeight: "500",
             }}
           >
-            User Login
+            
           </p>
         </div>
 
-        {/* User Login Form */}
-        <form onSubmit={handleUserLogin} style={{ marginBottom: "24px" }}>
+        {/* Form */}
+        <form onSubmit={handleSubmit}>
           <div style={{ marginBottom: "20px" }}>
             <label
               style={{
                 display: "block",
                 fontSize: "14px",
-                fontWeight: "500",
+                fontWeight: "600",
                 color: "#374151",
                 marginBottom: "8px",
               }}
@@ -104,14 +102,14 @@ export default function HomePage() {
               disabled={loading}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              placeholder="you@example.com"
               style={{
                 width: "100%",
                 padding: "12px 16px",
-                border: "1px solid #d1d5db",
                 borderRadius: "8px",
+                border: "1px solid #d1d5db",
                 fontSize: "16px",
               }}
-              placeholder="you@example.com"
             />
           </div>
 
@@ -120,7 +118,7 @@ export default function HomePage() {
               style={{
                 display: "block",
                 fontSize: "14px",
-                fontWeight: "500",
+                fontWeight: "600",
                 color: "#374151",
                 marginBottom: "8px",
               }}
@@ -133,14 +131,14 @@ export default function HomePage() {
               disabled={loading}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              placeholder="••••••••"
               style={{
                 width: "100%",
                 padding: "12px 16px",
-                border: "1px solid #d1d5db",
                 borderRadius: "8px",
+                border: "1px solid #d1d5db",
                 fontSize: "16px",
               }}
-              placeholder="••••••••"
             />
           </div>
 
@@ -165,96 +163,39 @@ export default function HomePage() {
             disabled={loading}
             style={{
               width: "100%",
-              display: "block",
               background: loading ? "#93c5fd" : "#2563eb",
               color: "white",
-              padding: "12px 16px",
-              borderRadius: "8px",
-              fontWeight: "bold",
+              padding: "14px",
+              borderRadius: "10px",
+              fontWeight: "700",
               fontSize: "16px",
               border: "none",
               cursor: loading ? "not-allowed" : "pointer",
-              boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1)",
+              boxShadow: "0 6px 12px rgba(37,99,235,0.25)",
             }}
           >
-            {loading ? "Logging in..." : "Login"}
+            {loading ? "Logging in..." : "Login as Admin"}
           </button>
         </form>
 
-        {/* Sign Up Link */}
-        <div style={{ textAlign: "center", marginBottom: "24px" }}>
-          <p style={{ fontSize: "14px", color: "#4b5563" }}>
-            Don't have an account?{" "}
+        {/* Footer */}
+        <div style={{ marginTop: "28px", textAlign: "center" }}>
+          <p style={{ fontSize: "14px", color: "#6b7280" }}>
+            Not an admin?{" "}
             <Link
-              href="/register"
+              href="/"
               style={{
                 color: "#2563eb",
                 fontWeight: "600",
                 textDecoration: "none",
               }}
             >
-              Create one
+              User Login
             </Link>
           </p>
-        </div>
 
-        {/* Divider */}
-        <div style={{ position: "relative", marginBottom: "24px" }}>
-          <div
-            style={{
-              position: "absolute",
-              inset: "0",
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            <div
-              style={{ width: "100%", borderTop: "1px solid #d1d5db" }}
-            ></div>
-          </div>
-          <div
-            style={{
-              position: "relative",
-              display: "flex",
-              justifyContent: "center",
-              fontSize: "14px",
-            }}
-          >
-            <span
-              style={{
-                padding: "0 16px",
-                background: "white",
-                color: "#6b7280",
-                fontWeight: "500",
-              }}
-            >
-              OR
-            </span>
-          </div>
-        </div>
-
-        {/* Admin Login Button */}
-        <Link
-          href="/login"
-          style={{
-            display: "block",
-            width: "100%",
-            textAlign: "center",
-            padding: "12px 16px",
-            border: "2px solid #d1d5db",
-            borderRadius: "8px",
-            color: "#374151",
-            fontWeight: "bold",
-            textDecoration: "none",
-            transition: "all 0.2s",
-          }}
-        >
-          Login as Admin
-        </Link>
-
-        <div style={{ paddingTop: "16px", textAlign: "center" }}>
-          <p style={{ fontSize: "12px", color: "#9ca3af" }}>
-            
+          <p style={{ marginTop: "16px", fontSize: "12px", color: "#9ca3af" }}>
+            Authorized Administrator Access Only
           </p>
         </div>
       </div>
